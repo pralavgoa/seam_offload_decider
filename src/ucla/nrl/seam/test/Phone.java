@@ -1,0 +1,64 @@
+package ucla.nrl.seam.test;
+
+import ucla.nrl.seam.CodeOffloadDecider;
+import ucla.nrl.seam.Location;
+
+public class Phone {
+
+	
+	private static Phone phone;
+	
+	private int batteryLevel = 100;
+	private int wifiLevel = 100;
+	
+	private Location location = new Location(0,0);
+	
+	public static void startPhone(){
+		if(phone==null){
+			phone = new Phone();
+			CodeOffloadDecider.initialize();
+		}
+	}
+	
+	public static boolean stopPhone(){
+		phone = null;
+		return true;
+	}
+	
+	public static Phone getInstance(){
+		return phone;
+	}
+
+	public int getBatteryLevel() {
+		return batteryLevel;
+	}
+
+	public void setBatteryLevel(int batteryLevel) {
+		System.out.println("Phone: Battery is now at "+batteryLevel);
+		if(batteryLevel<0){
+			stopPhone();
+			System.out.println("The phone has stopped");
+			return;
+		}
+		this.batteryLevel = batteryLevel;
+	}
+
+	public int getWifiLevel() {
+		return wifiLevel;
+	}
+
+	public void setWifiLevel(int wifiLevel) {
+		this.wifiLevel = wifiLevel;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+	
+	
+	
+}
