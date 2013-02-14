@@ -34,7 +34,7 @@ public class CodeOffloadDecider {
 		this.method = method;
 	}
 
-	public boolean isOffloadingBeneficial(String applicationName, String functionName, PhoneRuntimeLevels phoneRuntimeLevels, Location location){
+	public boolean isOffloadingBeneficial(String applicationName, String functionName, PhoneRuntimeLevels phoneRuntimeLevels, Integer[] wifiHistory, Location location){
 
 		ApplicationHistory appHistory = allApplicationHistoryMap.get(applicationName);
 
@@ -49,9 +49,9 @@ public class CodeOffloadDecider {
 
 		switch(this.method){
 		case METHOD_1:return isOffloadingBeneficial(phoneRuntimeLevels);
-		case METHOD_2:return isOffloadingBeneficial(phoneRuntimeLevels, appHistory);
-		case METHOD_3:return isOffloadingBeneficial(phoneRuntimeLevels, appHistory);
-		case METHOD_4:return isOffloadingBeneficial(phoneRuntimeLevels, appHistory,location);
+		case METHOD_2:return isOffloadingBeneficial(phoneRuntimeLevels, appHistory, wifiHistory);
+		case METHOD_3:return isOffloadingBeneficial(phoneRuntimeLevels, appHistory, wifiHistory);
+		case METHOD_4:return isOffloadingBeneficial(phoneRuntimeLevels, appHistory,wifiHistory, location);
 
 		}
 		return false;
@@ -102,7 +102,7 @@ public class CodeOffloadDecider {
 
 	}
 
-	private boolean isOffloadingBeneficial(PhoneRuntimeLevels phoneRuntimeLevels, ApplicationHistory appHistory){
+	private boolean isOffloadingBeneficial(PhoneRuntimeLevels phoneRuntimeLevels, ApplicationHistory appHistory, Integer[] wifiHistory){
 
 		//Get predicted battery level: based on application history
 		//Get predicted WiFi level: based on 15 minutes of learning data
@@ -113,7 +113,7 @@ public class CodeOffloadDecider {
 
 	}
 
-	private boolean isOffloadingBeneficial(PhoneRuntimeLevels phoneRuntimeLevels, ApplicationHistory appHistory, Location location){
+	private boolean isOffloadingBeneficial(PhoneRuntimeLevels phoneRuntimeLevels, ApplicationHistory appHistory, Integer[] wifiHistory, Location location){
 		
 		//Get predicted battery level: based on application history
 		//Get predicted WiFi level: based on 15 minutes of learning data
