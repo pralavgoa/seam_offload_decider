@@ -1,13 +1,28 @@
 package ucla.nrl.seam;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionHistory {
 
-	String functionName;
+	private final String functionName;
 	
-	Map<Long, FunctionRunHistory> functionRunHistoryMap = new HashMap<Long, FunctionRunHistory>();
+	private List<FunctionRunHistory> functionRunHistoryList = new ArrayList<FunctionRunHistory>();
+	
+	public FunctionHistory(String functionName){
+		this.functionName = functionName;
+	}
+	
+	public boolean insertData(FunctionRunHistory functionRunHistory){
+		
+		functionRunHistoryList.add(functionRunHistory);
+		
+		return false;
+	}
+
+	public String getFunctionName() {
+		return functionName;
+	}
 	
 	
 }

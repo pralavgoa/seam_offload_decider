@@ -10,6 +10,12 @@ public class CodeOffloadDecider {
 	public static final String DECIDER = "Decider:";
 	/*Making it a singleton class*/
 	private static CodeOffloadDecider codeOffloadDecider;
+	
+	private Method method;
+
+	private Map<String, ApplicationHistory> allApplicationHistoryMap = new HashMap<String, ApplicationHistory>();
+	private Map<String, PendingAppFunctionLevels> pendingApplicationHistoryMap = new HashMap<String, PendingAppFunctionLevels>();
+
 
 
 	public static CodeOffloadDecider getInstance(){
@@ -23,12 +29,7 @@ public class CodeOffloadDecider {
 	public static void initialize(){
 		codeOffloadDecider = new CodeOffloadDecider(CodeOffloadDecider.Method.METHOD_1);
 	}
-
-	Method method;
-
-	Map<String, ApplicationHistory> allApplicationHistoryMap = new HashMap<String, ApplicationHistory>();
-	Map<String, PendingAppFunctionLevels> pendingApplicationHistoryMap = new HashMap<String, PendingAppFunctionLevels>();
-
+	
 	public CodeOffloadDecider(Method method){
 		this.method = method;
 	}
@@ -57,12 +58,19 @@ public class CodeOffloadDecider {
 
 	}
 
-	public boolean notifyAppFunctionExecutionStop(String appName, String functionName, PhoneRuntimeLevels phoneRuntimeLevels){
+	public boolean notifyAppFunctionExecutionStop(String appName, String functionName, PhoneRuntimeLevels phoneEndRuntimeLevels){
 		//get the pending app, and insert into app history
 
 		PendingAppFunctionLevels currentAppPendingHistory = pendingApplicationHistoryMap.get(appName);
+		
+		currentAppPendingHistory.setEndRuntimeLevels(phoneEndRuntimeLevels);
+		
+		allApplicationHistoryMap.put(appName, new ApplicationHistory(appName));
+		
+		FunctionRunHistory functionRunHistory = new FunctionRunHistory(currentAppPendingHistory.getStartRuntimeLevels(), currentAppPendingHistory.getStartRuntimeLevels());
 
-
+		allApplicationHistoryMap.get(appName).insertData(functionName, functionRunHistory);
+		
 		return false;
 	}
 
@@ -96,8 +104,8 @@ public class CodeOffloadDecider {
 
 	private boolean isOffloadingBeneficial(PhoneRuntimeLevels phoneRuntimeLevels, ApplicationHistory appHistory){
 
-		//Get predicted battery level
-		//Get predicted wifi level
+		//Get predicted battery level: based on application history
+		//Get predicted WiFi level: based on 15 minutes of learning data
 
 		//decide
 
@@ -106,6 +114,13 @@ public class CodeOffloadDecider {
 	}
 
 	private boolean isOffloadingBeneficial(PhoneRuntimeLevels phoneRuntimeLevels, ApplicationHistory appHistory, Location location){
+		
+		//Get predicted battery level: based on application history
+		//Get predicted WiFi level: based on 15 minutes of learning data
+		
+		//use location information to help
+		
+		
 		return false;
 	}
 

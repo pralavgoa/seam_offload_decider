@@ -17,7 +17,13 @@ public class ApplicationHistory {
 		return applicationName;
 	}
 	
-	public boolean insertData(){
+	public boolean insertData(String functionName, FunctionRunHistory functionRunHistory){
+		
+		if(functionHistoryMap.get(functionName) == null){
+			functionHistoryMap.put(functionName, new FunctionHistory(functionName));
+		}
+		functionHistoryMap.get(functionName).insertData(functionRunHistory);
+		
 		return false;
 	}
 
