@@ -24,5 +24,9 @@ public class FunctionHistory {
 		return functionName;
 	}
 	
+	public List<FunctionRunHistory> getFunctionRunHistoryList(){
+		return new ArrayList<FunctionRunHistory>(functionRunHistoryList);
+	}
+	
 	
 }

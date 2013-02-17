@@ -47,6 +47,7 @@ public class CodeOffloadDecider {
 			return isOffloadingBeneficial(phoneRuntimeLevels);
 		}
 
+		//App history exists, do as per app history
 		switch(this.method){
 		case METHOD_1:return isOffloadingBeneficial(phoneRuntimeLevels);
 		case METHOD_2:return isOffloadingBeneficial(phoneRuntimeLevels, appHistory, wifiHistory);
@@ -62,6 +63,11 @@ public class CodeOffloadDecider {
 		//get the pending app, and insert into app history
 
 		PendingAppFunctionLevels currentAppPendingHistory = pendingApplicationHistoryMap.get(appName);
+		
+		if(currentAppPendingHistory == null){
+			System.out.println("Something went wrong, the app is not in the history table "+appName);
+			return false;
+		}
 		
 		currentAppPendingHistory.setEndRuntimeLevels(phoneEndRuntimeLevels);
 		

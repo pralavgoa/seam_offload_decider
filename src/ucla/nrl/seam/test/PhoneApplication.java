@@ -48,7 +48,7 @@ private String randomFunction(String data, String functionName, int batteryDecre
 	
 	String result = "EMPTY";
 	
-	if(CodeOffloadDecider.getInstance().isOffloadingBeneficial(this.appName, functionName, phoneRuntimeLevels, location)){
+	if(CodeOffloadDecider.getInstance().isOffloadingBeneficial(this.appName, functionName, phoneRuntimeLevels,new Integer[10], location)){
 		System.out.println("Offloading is better");
 		result = CodeOffloadDecider.getInstance().offload(data);
 	}else{
