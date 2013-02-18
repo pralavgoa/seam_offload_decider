@@ -25,4 +25,8 @@ public class FunctionRunHistory {
 		return timeDuration;
 	}
 	
+	public String toString(){
+		return "TimeDuration:"+timeDuration+",BatteryConsumed:"+batteryConsumed+",AvgWifiStrength:"+averageWifiStrength;
+	}
+	
 }

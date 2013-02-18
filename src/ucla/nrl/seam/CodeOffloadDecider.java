@@ -10,7 +10,7 @@ public class CodeOffloadDecider {
 	public static final String DECIDER = "Decider:";
 	/*Making it a singleton class*/
 	private static CodeOffloadDecider codeOffloadDecider;
-	
+
 	private Method method;
 
 	private Map<String, ApplicationHistory> allApplicationHistoryMap = new HashMap<String, ApplicationHistory>();
@@ -29,7 +29,7 @@ public class CodeOffloadDecider {
 	public static void initialize(){
 		codeOffloadDecider = new CodeOffloadDecider(CodeOffloadDecider.Method.METHOD_1);
 	}
-	
+
 	public CodeOffloadDecider(Method method){
 		this.method = method;
 	}
@@ -39,7 +39,7 @@ public class CodeOffloadDecider {
 		ApplicationHistory appHistory = allApplicationHistoryMap.get(applicationName);
 
 		if(appHistory == null){
-
+			System.out.println(DECIDER+"App history is null");
 			//insert this application in the pending application list
 			pendingApplicationHistoryMap.put(applicationName, new PendingAppFunctionLevels(phoneRuntimeLevels));
 
@@ -63,20 +63,24 @@ public class CodeOffloadDecider {
 		//get the pending app, and insert into app history
 
 		PendingAppFunctionLevels currentAppPendingHistory = pendingApplicationHistoryMap.get(appName);
-		
+
 		if(currentAppPendingHistory == null){
-			System.out.println("Something went wrong, the app is not in the history table "+appName);
+			System.out.println(DECIDER+"Something went wrong, the app is not in the history table "+appName);
 			return false;
 		}
-		
+
 		currentAppPendingHistory.setEndRuntimeLevels(phoneEndRuntimeLevels);
 		
-		allApplicationHistoryMap.put(appName, new ApplicationHistory(appName));
+		ApplicationHistory currAppHistory = allApplicationHistoryMap.get(appName);
+		if(currAppHistory==null){
+			allApplicationHistoryMap.put(appName, new ApplicationHistory(appName));
+		}
 		
-		FunctionRunHistory functionRunHistory = new FunctionRunHistory(currentAppPendingHistory.getStartRuntimeLevels(), currentAppPendingHistory.getStartRuntimeLevels());
+
+		FunctionRunHistory functionRunHistory = new FunctionRunHistory(currentAppPendingHistory.getStartRuntimeLevels(), currentAppPendingHistory.getEndRuntimeLevels());
 
 		allApplicationHistoryMap.get(appName).insertData(functionName, functionRunHistory);
-		
+
 		return false;
 	}
 
@@ -120,13 +124,13 @@ public class CodeOffloadDecider {
 	}
 
 	private boolean isOffloadingBeneficial(PhoneRuntimeLevels phoneRuntimeLevels, ApplicationHistory appHistory, Integer[] wifiHistory, Location location){
-		
+
 		//Get predicted battery level: based on application history
 		//Get predicted WiFi level: based on 15 minutes of learning data
-		
+
 		//use location information to help
-		
-		
+
+
 		return false;
 	}
 

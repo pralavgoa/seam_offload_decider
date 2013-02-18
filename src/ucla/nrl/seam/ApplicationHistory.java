@@ -24,7 +24,13 @@ public class ApplicationHistory {
 		}
 		functionHistoryMap.get(functionName).insertData(functionRunHistory);
 		
+		System.out.println("Inserting history "+toString());
+		
 		return false;
+	}
+	
+	public String toString(){
+		return applicationName+functionHistoryMap.toString();
 	}
 
 	

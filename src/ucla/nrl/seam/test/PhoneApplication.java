@@ -39,22 +39,25 @@ private String randomFunction(String data, String functionName, int batteryDecre
 		return "FAILURE";
 	}
 
-	long currentTime = System.currentTimeMillis();
-	int batteryLevel = Phone.getInstance().getBatteryLevel();
-	int wifiLevel = Phone.getInstance().getBatteryLevel();
-	Location location = Phone.getInstance().getLocation();
+	PhoneRuntimeLevels phoneRuntimeLevels= Phone.getInstance().getCurrentRuntimeLevels(data.length());
 	
-	PhoneRuntimeLevels phoneRuntimeLevels= new PhoneRuntimeLevels(currentTime,batteryLevel,wifiLevel,data.length());
+    Location location = Phone.getInstance().getLocation();
 	
 	String result = "EMPTY";
 	
 	if(CodeOffloadDecider.getInstance().isOffloadingBeneficial(this.appName, functionName, phoneRuntimeLevels,new Integer[10], location)){
 		System.out.println("Offloading is better");
 		result = CodeOffloadDecider.getInstance().offload(data);
+		
+		PhoneRuntimeLevels phoneEndRuntimeLevels= Phone.getInstance().getCurrentRuntimeLevels(data.length());
+		CodeOffloadDecider.getInstance().notifyAppFunctionExecutionStop(this.appName, functionName, phoneEndRuntimeLevels);
 	}else{
 		System.out.println("Computation on phone");
 		result = performComputation(data);
-		Phone.getInstance().setBatteryLevel(batteryLevel-batteryDecrease);
+		Phone.getInstance().setBatteryLevel(Phone.getInstance().getBatteryLevel()-batteryDecrease);
+		
+		PhoneRuntimeLevels phoneEndRuntimeLevels= Phone.getInstance().getCurrentRuntimeLevels(data.length());
+		CodeOffloadDecider.getInstance().notifyAppFunctionExecutionStop(this.appName, functionName, phoneEndRuntimeLevels);
 	}
 	return result;
 	

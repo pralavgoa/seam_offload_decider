@@ -28,5 +28,15 @@ public class FunctionHistory {
 		return new ArrayList<FunctionRunHistory>(functionRunHistoryList);
 	}
 	
+	public String toString(){
+		
+		StringBuilder functionRunHistoryStringBuilder = new StringBuilder();
+		
+		for(FunctionRunHistory functionRunHistory : functionRunHistoryList){
+			functionRunHistoryStringBuilder.append(functionRunHistory.toString());
+		}
+	   return functionRunHistoryStringBuilder.toString();
+	}
+	
 	
 }

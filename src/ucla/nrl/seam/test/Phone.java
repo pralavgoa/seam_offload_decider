@@ -2,6 +2,7 @@ package ucla.nrl.seam.test;
 
 import ucla.nrl.seam.CodeOffloadDecider;
 import ucla.nrl.seam.Location;
+import ucla.nrl.seam.PhoneRuntimeLevels;
 
 public class Phone {
 
@@ -57,6 +58,14 @@ public class Phone {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+	
+	public PhoneRuntimeLevels getCurrentRuntimeLevels(int dataLength){
+		long currentTime = System.currentTimeMillis();
+		int batteryLevel = Phone.getInstance().getBatteryLevel();
+		int wifiLevel = Phone.getInstance().getBatteryLevel();
+		
+		return new PhoneRuntimeLevels(currentTime,batteryLevel,wifiLevel,dataLength);
 	}
 	
 	
