@@ -6,6 +6,7 @@ import ucla.nrl.seam.PhoneRuntimeLevels;
 
 public class PhoneApplication {
 
+	public static final String PHONE_APP = "PhoneApplication:";
 	
 	public final String appName;
 	
@@ -35,7 +36,7 @@ public void runFunction(Function function, String data){
 private String randomFunction(String data, String functionName, int batteryDecrease) {
 	
 	if(Phone.getInstance()==null){
-		System.out.println("Phone is dead");
+		System.out.println(PHONE_APP+"Phone is dead");
 		return "FAILURE";
 	}
 
@@ -46,13 +47,13 @@ private String randomFunction(String data, String functionName, int batteryDecre
 	String result = "EMPTY";
 	
 	if(CodeOffloadDecider.getInstance().isOffloadingBeneficial(this.appName, functionName, phoneRuntimeLevels,new Integer[10], location)){
-		System.out.println("Offloading is better");
+		System.out.println(PHONE_APP+"Offloading is better");
 		result = CodeOffloadDecider.getInstance().offload(data);
 		
 		PhoneRuntimeLevels phoneEndRuntimeLevels= Phone.getInstance().getCurrentRuntimeLevels(data.length());
 		CodeOffloadDecider.getInstance().notifyAppFunctionExecutionStop(this.appName, functionName, phoneEndRuntimeLevels);
 	}else{
-		System.out.println("Computation on phone");
+		System.out.println(PHONE_APP+"Computation on phone");
 		result = performComputation(data);
 		Phone.getInstance().setBatteryLevel(Phone.getInstance().getBatteryLevel()-batteryDecrease);
 		

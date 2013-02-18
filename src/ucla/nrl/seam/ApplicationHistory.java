@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class ApplicationHistory {
 
+	public static final String APP_HISTORY = "ApplicationHistory:";
 	private final String applicationName;
 	
 	private Map<String,FunctionHistory> functionHistoryMap = new HashMap<String,FunctionHistory>();
@@ -24,7 +25,7 @@ public class ApplicationHistory {
 		}
 		functionHistoryMap.get(functionName).insertData(functionRunHistory);
 		
-		System.out.println("Inserting history "+toString());
+		System.out.println(APP_HISTORY+"Inserting history "+toString());
 		
 		return false;
 	}

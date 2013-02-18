@@ -10,7 +10,7 @@ public class Phone {
 	private static Phone phone;
 	
 	private int batteryLevel = 100;
-	private int wifiLevel = 100;
+	private int MAX_WIFI_LEVEL = 100;
 	
 	private Location location = new Location(0,0);
 	
@@ -45,11 +45,7 @@ public class Phone {
 	}
 
 	public int getWifiLevel() {
-		return wifiLevel;
-	}
-
-	public void setWifiLevel(int wifiLevel) {
-		this.wifiLevel = wifiLevel;
+		return (int) (Math.random()*MAX_WIFI_LEVEL);
 	}
 
 	public Location getLocation() {
@@ -63,7 +59,7 @@ public class Phone {
 	public PhoneRuntimeLevels getCurrentRuntimeLevels(int dataLength){
 		long currentTime = System.currentTimeMillis();
 		int batteryLevel = Phone.getInstance().getBatteryLevel();
-		int wifiLevel = Phone.getInstance().getBatteryLevel();
+		int wifiLevel = Phone.getInstance().getWifiLevel();
 		
 		return new PhoneRuntimeLevels(currentTime,batteryLevel,wifiLevel,dataLength);
 	}
